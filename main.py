@@ -1,20 +1,26 @@
 from pynput.keyboard import Key, Listener
+
+import interface
 from bot import Bot
-from sys import exit
 
 
 bot = Bot()
 
 
-def stop(key):
-    if key == Key.insert:
-        bot.alive = False
-        exit(0)
+def on_press(key):
+    if key == Key.f7:
+        if bot.alive:
+            bot.alive = False
+            interface.information(type_inf='off')
+        else:
+            bot.alive = True
+            interface.information(type_inf='on')
 
 
 def main():
+    interface.main()
     bot.start()
-    with Listener(on_press=stop) as listener:
+    with Listener(on_press=on_press) as listener:
         listener.join()
 
 
